@@ -268,3 +268,6 @@ C:\Users\nihal\source\repos\NotificationMicroserviceLast\obj\Debug\net8.0\refint
 C:\Users\nihal\source\repos\NotificationMicroserviceLast\obj\Debug\net8.0\NotificationService.pdb
 C:\Users\nihal\source\repos\NotificationMicroserviceLast\obj\Debug\net8.0\NotificationService.genruntimeconfig.cache
 C:\Users\nihal\source\repos\NotificationMicroserviceLast\obj\Debug\net8.0\ref\NotificationService.dll
+C:\Users\nihal\source\repos\NotificationMicroserviceLast\bin\Debug\net8.0\MySqlConnector.dll
+C:\Users\nihal\source\repos\NotificationMicroserviceLast\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\nihal\source\repos\NotificationMicroserviceLast\obj\Debug\net8.0\NotificationService.sourcelink.json

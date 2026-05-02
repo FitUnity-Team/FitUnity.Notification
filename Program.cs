@@ -20,8 +20,9 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<NotificationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 var authServiceBaseUrl = builder.Configuration["ExternalServices:AuthServiceBaseUrl"]
     ?? throw new InvalidOperationException("ExternalServices:AuthServiceBaseUrl is not configured.");
