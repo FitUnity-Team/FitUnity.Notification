@@ -20,9 +20,10 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// MODIFICATION ICI : On utilise une version fixe de MySQL pour éviter le crash AutoDetect
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<NotificationDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 40))));
 
 var authServiceBaseUrl = builder.Configuration["ExternalServices:AuthServiceBaseUrl"]
     ?? throw new InvalidOperationException("ExternalServices:AuthServiceBaseUrl is not configured.");
@@ -93,21 +94,20 @@ builder.Services.AddMassTransit(x =>
 
 var app = builder.Build();
 
+// Création de la base de données au démarrage
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<NotificationDbContext>();
     db.Database.EnsureCreated();
 }
 
-if (app.Environment.IsDevelopment())
+// MODIFICATION ICI : On active Swagger même en dehors du mode Développement pour Docker
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "NotificationService v1");
-        c.RoutePrefix = string.Empty;
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "NotificationService v1");
+    c.RoutePrefix = string.Empty; // Swagger sera à la racine : http://localhost:8080/
+});
 
 app.MapControllers();
 
